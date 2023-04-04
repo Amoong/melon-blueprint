@@ -5,12 +5,13 @@ import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middlewares.js";
 import rootRouter from "./routers/rootRouter.js";
+import apiRouter from "./routers/apiRouter.js";
 
 const app = express();
 const logger = morgan("dev");
 
-app.set("view engine", "pug");
-app.set("views", process.cwd() + "/src/views");
+// app.set("view engine", "pug");
+// app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,8 +27,10 @@ app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
+app.use("/views", express.static("views"));
 
 app.use("/", rootRouter);
+app.use("/api", apiRouter);
 /*
 Add more routers here!
 */

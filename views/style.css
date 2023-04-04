@@ -1,0 +1,13 @@
+li.header > span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+li {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr;
+}
+
+li > span {
+  margin-right: 10px;
+}

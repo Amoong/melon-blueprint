@@ -1,6 +1,7 @@
 import "regenerator-runtime";
 import "dotenv/config.js";
 import "./db.js";
+import "./models/Song.js";
 import app from "./server.js";
 
 const PORT = process.env.PORT || 4000;
