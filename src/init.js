@@ -1,5 +1,5 @@
 import "regenerator-runtime";
-import "dotenv/config.js";
+import "dotenv/config";
 import "./db.js";
 import "./models/Song.js";
 import app from "./server.js";
