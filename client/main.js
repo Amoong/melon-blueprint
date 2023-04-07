@@ -1,6 +1,6 @@
 import { SCREEN } from "./components/templates/root-template/constants.js";
 import "./components/templates/root-template/index.js";
-import "./components/templates/root-template/music-player/music-player.js";
+import "./components/templates/root-template/music-player/index.js";
 
 import { html } from "/client/utils.js";
 

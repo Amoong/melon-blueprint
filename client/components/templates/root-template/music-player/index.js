@@ -3,6 +3,7 @@ import { html } from "/client/utils.js";
 
 import "./music-info.js";
 import "./music-timer.js";
+import "./music-control.js";
 
 const template = html`
   <style>
@@ -42,8 +43,8 @@ const template = html`
     <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="6px"></music-info>
-      <music-timer></music-timer>
-      <slot name="music-control"></slot>
+      <music-timer margin-bottom="5px"></music-timer>
+      <music-control></music-control>
       <slot name="volume-control"></slot>
       <slot name="other-functions"></slot>
     </div>

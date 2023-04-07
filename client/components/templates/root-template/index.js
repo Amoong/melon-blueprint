@@ -29,7 +29,7 @@ const template = html`
   <div class="root">
     <div class="screen-wrapper">
       <div class="status-bar">STATUS BAR</div>
-      <slot name=${SCREEN.MUSIC_PLAYER}> </slot>
+      <slot name=${SCREEN.MUSIC_PLAYER}></slot>
     </div>
   </div>
 `;

@@ -3,6 +3,7 @@ import { html } from "/client/utils.js";
 const template = html`
   <style>
     :host {
+      display: block;
       width: 100%;
     }
 
@@ -57,6 +58,12 @@ class MusicTimer extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
+  connectedCallback() {
+    const marginBottom = this.getAttribute("margin-bottom");
+
+    this.style.marginBottom = marginBottom;
   }
 }
 
