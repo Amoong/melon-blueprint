@@ -10,8 +10,6 @@ import apiRouter from "./routers/apiRouter.js";
 const app = express();
 const logger = morgan("dev");
 
-// app.set("view engine", "pug");
-// app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,7 +25,7 @@ app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
-app.use("/views", express.static("views"));
+app.use("/client", express.static("client"));
 
 app.use("/", rootRouter);
 app.use("/api", apiRouter);

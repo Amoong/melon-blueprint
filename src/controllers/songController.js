@@ -8,8 +8,7 @@ export const home = async (req, res) => {
   Song.find({}, (error, videos) => {
     console.log(error, videos);
   });
-  console.log("hi");
-  return res.sendFile(__dirname + "/views/home.html");
+  return res.sendFile(__dirname + "/client/index.html");
 };
 
 export const insert = async (req, res) => {
