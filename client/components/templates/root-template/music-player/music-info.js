@@ -5,6 +5,7 @@ import { html } from "/client/utils.js";
 const template = html`
   <style>
     :host {
+      display: block;
       width: 100%;
     }
 
@@ -19,7 +20,7 @@ const template = html`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 5px;
+      gap: 6px;
     }
 
     .music {
@@ -37,11 +38,11 @@ const template = html`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border: 0;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.2);
     }
 
     .action-btn > svg {

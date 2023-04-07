@@ -2,6 +2,7 @@ import { SCREEN } from "../constants.js";
 import { html } from "/client/utils.js";
 
 import "./music-info.js";
+import "./music-timer.js";
 
 const template = html`
   <style>
@@ -28,17 +29,24 @@ const template = html`
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
-      margin-bottom: 25px;
+      margin-bottom: 27px;
+    }
+
+    .bottom-wrapper {
+      width: 100%;
+      padding: 0 6px;
     }
   </style>
   <div class="music-player">
     <button class="drawer-btn"></button>
     <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
-    <music-info margin-bottom="10px"></music-info>
-    <slot name="music-timer"></slot>
-    <slot name="music-control"></slot>
-    <slot name="volume-control"></slot>
-    <slot name="other-functions"></slot>
+    <div class="bottom-wrapper">
+      <music-info margin-bottom="6px"></music-info>
+      <music-timer></music-timer>
+      <slot name="music-control"></slot>
+      <slot name="volume-control"></slot>
+      <slot name="other-functions"></slot>
+    </div>
   </div>
 `;
 
