@@ -1,9 +1,10 @@
-import { html } from "/client/utils.js";
+import { html, DefaultComponent } from "/client/utils.js";
 
 const template = html`
   <style>
     :host {
       width: 100%;
+      display: block;
     }
 
     .music-control {
@@ -95,12 +96,9 @@ const template = html`
   </div>
 `;
 
-class MusicControl extends HTMLElement {
+class MusicControl extends DefaultComponent {
   constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
+    super(template);
   }
 }
 

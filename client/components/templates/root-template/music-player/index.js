@@ -4,6 +4,7 @@ import { html } from "/client/utils.js";
 import "./music-info.js";
 import "./music-timer.js";
 import "./music-control.js";
+import "./volume-control.js";
 
 const template = html`
   <style>
@@ -42,10 +43,10 @@ const template = html`
     <button class="drawer-btn"></button>
     <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
-      <music-info margin-bottom="6px"></music-info>
-      <music-timer margin-bottom="7px"></music-timer>
-      <music-control></music-control>
-      <slot name="volume-control"></slot>
+      <music-info margin-bottom="7px"></music-info>
+      <music-timer margin-bottom="1px"></music-timer>
+      <music-control margin-bottom="12px"></music-control>
+      <volume-control></volume-control>
       <slot name="other-functions"></slot>
     </div>
   </div>

@@ -44,7 +44,7 @@ const template = html`
     }
   </style>
   <div class="music-timer">
-    <rounded-range></rounded-range>
+    <rounded-range margin-bottom="13px"></rounded-range>
     <div class="timer-number">
       <span class="elapsed">0:39</span>
       <span class="remained">-1:23</span>

@@ -1,14 +1,16 @@
-import { html } from "/client/utils.js";
+import { html, DefaultComponent } from "/client/utils.js";
 
 const template = html`
   <style>
+    :host {
+      width: 100%;
+    }
     .rounded-range {
       width: 100%;
       height: 7px;
       border-radius: 4px;
       background-color: rgba(255, 255, 255, 0.3);
       overflow: hidden;
-      margin-bottom: 10px;
     }
 
     .filled {
@@ -24,12 +26,9 @@ const template = html`
   </div>
 `;
 
-class RoundedRange extends HTMLElement {
+class RoundedRange extends DefaultComponent {
   constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
+    super(template);
   }
 }
 
