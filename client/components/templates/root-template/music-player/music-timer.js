@@ -1,4 +1,4 @@
-import { html } from "/client/utils.js";
+import { html, DefaultComponent } from "/client/utils.js";
 
 import "/client/components/atom/rounded-range.js";
 
@@ -52,18 +52,9 @@ const template = html`
   </div>
 `;
 
-class MusicTimer extends HTMLElement {
+class MusicTimer extends DefaultComponent {
   constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
-  }
-
-  connectedCallback() {
-    const marginBottom = this.getAttribute("margin-bottom");
-
-    this.style.marginBottom = marginBottom;
+    super(template);
   }
 }
 

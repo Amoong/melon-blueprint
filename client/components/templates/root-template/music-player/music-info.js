@@ -1,4 +1,4 @@
-import { html } from "/client/utils.js";
+import { html, DefaultComponent } from "/client/utils.js";
 
 // Music name 이 길면 가로로 스크롤 되어야 함
 
@@ -73,18 +73,9 @@ const template = html`
   </div>
 `;
 
-class MusicInfo extends HTMLElement {
+class MusicInfo extends DefaultComponent {
   constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
-  }
-
-  connectedCallback() {
-    const marginBottom = this.getAttribute("margin-bottom");
-
-    this.style.marginBottom = marginBottom;
+    super(template);
   }
 }
 

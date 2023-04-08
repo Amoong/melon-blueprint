@@ -1,7 +1,9 @@
 export const html = (...args) => {
   const template = document.createElement("template");
 
-  template.innerHTML = String.raw`
+  const _html = String.raw;
+
+  template.innerHTML = _html`
     <style>
       *,
       *::before,
@@ -57,6 +59,19 @@ export const html = (...args) => {
       }
     </style>
     ${String.raw(...args)}`;
-
   return template;
 };
+
+export class DefaultComponent extends HTMLElement {
+  constructor(template) {
+    super();
+
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+  connectedCallback() {
+    const marginBottom = this.getAttribute("margin-bottom");
+
+    this.style.marginBottom = marginBottom;
+  }
+}
