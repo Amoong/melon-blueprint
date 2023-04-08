@@ -1,5 +1,7 @@
 import { html } from "/client/utils.js";
 
+import "/client/components/atom/rounded-range.js";
+
 const template = html`
   <style>
     :host {
@@ -42,9 +44,7 @@ const template = html`
     }
   </style>
   <div class="music-timer">
-    <div class="range">
-      <div class="filled-range"></div>
-    </div>
+    <rounded-range></rounded-range>
     <div class="timer-number">
       <span class="elapsed">0:39</span>
       <span class="remained">-1:23</span>
