@@ -43,7 +43,7 @@ const template = html`
     <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="6px"></music-info>
-      <music-timer margin-bottom="5px"></music-timer>
+      <music-timer margin-bottom="7px"></music-timer>
       <music-control></music-control>
       <slot name="volume-control"></slot>
       <slot name="other-functions"></slot>
