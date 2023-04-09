@@ -5,6 +5,7 @@ import "./music-info.js";
 import "./music-timer.js";
 import "./music-control.js";
 import "./volume-control.js";
+import "./other-functions.js";
 
 const template = html`
   <style>
@@ -46,8 +47,8 @@ const template = html`
       <music-info margin-bottom="7px"></music-info>
       <music-timer margin-bottom="1px"></music-timer>
       <music-control margin-bottom="13px"></music-control>
-      <volume-control></volume-control>
-      <slot name="other-functions"></slot>
+      <volume-control margin-bottom="20px"></volume-control>
+      <other-functions></other-functions>
     </div>
   </div>
 `;
