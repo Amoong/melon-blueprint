@@ -11,7 +11,7 @@ const template = html`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 50px;
+      padding: 0 40px;
     }
 
     button {
