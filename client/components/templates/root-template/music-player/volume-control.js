@@ -44,7 +44,7 @@ const template = html`
       ></path>
     </svg>
     <div class="range-wrapper">
-      <rounded-range></rounded-range>
+      <rounded-range value="0.1"></rounded-range>
     </div>
     <svg
       fill="currentColor"

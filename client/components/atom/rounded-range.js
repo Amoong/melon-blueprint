@@ -30,6 +30,22 @@ class RoundedRange extends DefaultComponent {
   constructor() {
     super(template);
   }
+
+  static get observedAttributes() {
+    return ["value"];
+  }
+
+  attributeChangedCallback(name, _, newValue) {
+    if (name === "value") {
+      this.onChangeValue(newValue);
+    }
+  }
+
+  onChangeValue = (newValue) => {
+    const $filled = this.shadowRoot.querySelector(".filled");
+    console.log("onChangeValue", newValue, $filled);
+    $filled.style.transform = `scaleX(${newValue})`;
+  };
 }
 
 customElements.define("rounded-range", RoundedRange);
