@@ -1,5 +1,5 @@
 import { html, DefaultComponent } from "/client/utils.js";
-
+import { timeFormatter } from "./utils.js";
 import "/client/components/atom/rounded-range.js";
 
 const template = html`
@@ -46,8 +46,8 @@ const template = html`
   <div class="music-timer">
     <rounded-range smooth="true" margin-bottom="13px"></rounded-range>
     <div class="timer-number">
-      <span class="elapsed">0:39</span>
-      <span class="remained">-1:23</span>
+      <span class="elapsed">0:00</span>
+      <span class="remained">0:00</span>
     </div>
   </div>
 `;
@@ -57,7 +57,10 @@ class MusicTimer extends DefaultComponent {
     super(template);
 
     this.$roundedRange = this.shadowRoot.querySelector("rounded-range");
+    this.$elapsed = this.shadowRoot.querySelector(".elapsed");
+    this.$remained = this.shadowRoot.querySelector(".remained");
     this.duration = 0;
+    this.currentTime = 0;
   }
 
   static get observedAttributes() {
@@ -66,15 +69,38 @@ class MusicTimer extends DefaultComponent {
 
   attributeChangedCallback(attrName, _, newVal) {
     if (attrName === "current-time") {
-      this.updateCurrentTime(newVal);
+      this.onChangeCurrentTime(newVal);
     } else if (attrName === "duration") {
-      this.duration = newVal;
+      this.onChangeDuration(newVal);
     }
   }
 
-  updateCurrentTime = (newVal) => {
-    const rangeValue = this.duration === 0 ? 0 : newVal / this.duration;
+  onChangeCurrentTime = (currentTime) => {
+    this.currentTime = currentTime;
+    this.updateRangeValue();
+    this.updateElapsed();
+    this.updateRemained();
+  };
+
+  onChangeDuration = (duration) => {
+    this.duration = duration;
+    this.updateRemained();
+  };
+
+  updateRangeValue = () => {
+    const rangeValue =
+      this.duration === 0 ? 0 : this.currentTime / this.duration;
     this.$roundedRange.setAttribute("value", rangeValue);
+  };
+
+  updateElapsed = () => {
+    this.$elapsed.innerHTML = timeFormatter(this.currentTime);
+  };
+
+  updateRemained = () => {
+    this.$remained.innerHTML = `-${timeFormatter(
+      this.duration - this.currentTime
+    )}`;
   };
 }
 

@@ -43,7 +43,7 @@ const template = html`
   <div class="music-player">
     <audio
       id="music"
-      volume="0.5"
+      volume="0.1"
       src="/static/musics/AlexGrohl-Electric_Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
@@ -80,8 +80,9 @@ class MusicPlayer extends DefaultComponent {
   };
 
   initAttr = () => {
-    console.log(this.$audio.duration);
+    console.log("init");
     const audioDuration = this.$audio.duration;
+    console.log(audioDuration);
     this.$musicTimer.setAttribute("duration", audioDuration);
   };
 
