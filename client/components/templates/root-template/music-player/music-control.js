@@ -148,9 +148,9 @@ class MusicControl extends DefaultComponent {
     this.$playBtnEffect = this.shadowRoot.querySelector(".play-btn-effect");
 
     this.$playBtn.addEventListener("click", this.onClickPlayBtn);
-    this.$playBtn.addEventListener("mousedown", this.onMouseDownPlayBtn);
-    this.$playBtn.addEventListener("mouseup", this.onMouseUpPlayBtn);
-    this.$playBtn.addEventListener("mouseleave", this.onMouseUpPlayBtn);
+    this.$playBtn.addEventListener("pointerdown", this.onMouseDownPlayBtn);
+    this.$playBtn.addEventListener("pointerup", this.onMouseUpPlayBtn);
+    this.$playBtn.addEventListener("pointerleave", this.onMouseUpPlayBtn);
   }
 
   onClickPlayBtn = () => {
