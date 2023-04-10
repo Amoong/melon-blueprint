@@ -18,7 +18,11 @@ const template = html`
       height: 100%;
       background-color: rgba(255, 255, 255, 0.7);
       transform-origin: 0 0;
-      transform: scaleX(0.3);
+      transform: scaleX(0);
+    }
+
+    .smooth {
+      transition: transform 0.5s linear;
     }
   </style>
   <div class="rounded-range">
@@ -29,22 +33,32 @@ const template = html`
 class RoundedRange extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$filled = this.shadowRoot.querySelector(".filled");
   }
 
   static get observedAttributes() {
-    return ["value"];
+    return ["value", "smooth"];
   }
 
   attributeChangedCallback(name, _, newValue) {
     if (name === "value") {
       this.onChangeValue(newValue);
+    } else if (name === "smooth") {
+      this.onChangeSmooth(newValue);
     }
   }
 
   onChangeValue = (newValue) => {
-    const $filled = this.shadowRoot.querySelector(".filled");
-    console.log("onChangeValue", newValue, $filled);
-    $filled.style.transform = `scaleX(${newValue})`;
+    this.$filled.style.transform = `scaleX(${newValue})`;
+  };
+
+  onChangeSmooth = (smooth) => {
+    if (smooth === "true") {
+      this.$filled.classList.add("smooth");
+    } else {
+      this.$filled.classList.remove("smooth");
+    }
   };
 }
 

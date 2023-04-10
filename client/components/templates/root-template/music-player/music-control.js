@@ -18,6 +18,16 @@ const template = html`
       background-color: transparent;
       color: white;
       border: 0;
+      cursor: pointer;
+    }
+
+    .play-stop {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 44px;
+      height: 44px;
     }
 
     button > svg {
@@ -26,8 +36,29 @@ const template = html`
     }
 
     .play-stop > svg {
+      position: absolute;
       width: 44px;
       height: 44px;
+      transition: all 0.3s cubic-bezier(0.42, 0, 0.4, 1.77);
+    }
+
+    .play-icon {
+      right: -2px;
+    }
+
+    .hide-icon {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+
+    .play-btn-effect {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.05s ease-in-out;
     }
   </style>
   <div class="music-control">
@@ -47,8 +78,10 @@ const template = html`
         ></path>
       </svg>
     </button>
-    <button class="play-stop">
-      <!-- <svg
+    <button class="play-stop" data-is-playing="false">
+      <div class="play-btn-effect"></div>
+      <svg
+        class="play-icon"
         fill="currentColor"
         stroke="currentColor"
         stroke-width="1.5"
@@ -61,8 +94,9 @@ const template = html`
           stroke-linejoin="round"
           d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
         ></path>
-      </svg> -->
+      </svg>
       <svg
+        class="pause-icon hide-icon"
         fill="currentColor"
         stroke="currentColor"
         stroke-width="5"
@@ -99,7 +133,55 @@ const template = html`
 class MusicControl extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$playBtn;
+    this.$rewindBtn;
+    this.$ffBtn;
   }
+
+  connectedCallback() {
+    this.$playBtn = this.shadowRoot.querySelector(".play-stop");
+    this.$rewindBtn = this.shadowRoot.querySelector(".rewind");
+    this.$ffBtn = this.shadowRoot.querySelector(".fast-forward");
+    this.$playIcon = this.shadowRoot.querySelector(".play-icon");
+    this.$pauseIcon = this.shadowRoot.querySelector(".pause-icon");
+    this.$playBtnEffect = this.shadowRoot.querySelector(".play-btn-effect");
+
+    this.$playBtn.addEventListener("click", this.onClickPlayBtn);
+    this.$playBtn.addEventListener("mousedown", this.onMouseDownPlayBtn);
+    this.$playBtn.addEventListener("mouseup", this.onMouseUpPlayBtn);
+    this.$playBtn.addEventListener("mouseleave", this.onMouseUpPlayBtn);
+  }
+
+  onClickPlayBtn = () => {
+    const isPlaying = this.$playBtn.dataset.isPlaying === "true";
+
+    if (isPlaying) {
+      this.dispatchEventToParent("pauseMusic");
+      this.$playBtn.dataset.isPlaying = "false";
+      this.$playIcon.classList.remove("hide-icon");
+      this.$pauseIcon.classList.add("hide-icon");
+    } else {
+      this.dispatchEventToParent("playMusic");
+      this.$playBtn.dataset.isPlaying = "true";
+      this.$playIcon.classList.add("hide-icon");
+      this.$pauseIcon.classList.remove("hide-icon");
+    }
+  };
+
+  onMouseDownPlayBtn = () => {
+    this.$playBtnEffect.style.opacity = 1;
+    this.$playBtnEffect.style.transform = "scale(1.1, 1.1)";
+  };
+
+  onMouseUpPlayBtn = () => {
+    this.$playBtnEffect.style.opacity = 0;
+    this.$playBtnEffect.style.transform = "scale(0, 0)";
+  };
+
+  dispatchEventToParent = (eventName) => {
+    this.dispatchEvent(new CustomEvent(eventName));
+  };
 }
 
 customElements.define("music-control", MusicControl);

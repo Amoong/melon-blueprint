@@ -1,5 +1,5 @@
 import { SCREEN } from "../constants.js";
-import { html } from "/client/utils.js";
+import { html, DefaultComponent } from "/client/utils.js";
 
 import "./music-info.js";
 import "./music-timer.js";
@@ -41,6 +41,11 @@ const template = html`
     }
   </style>
   <div class="music-player">
+    <audio
+      id="music"
+      volume="0.5"
+      src="/static/musics/AlexGrohl-Electric_Head.mp3"
+    ></audio>
     <button class="drawer-btn"></button>
     <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
@@ -53,13 +58,53 @@ const template = html`
   </div>
 `;
 
-class MusicPlayer extends HTMLElement {
+class MusicPlayer extends DefaultComponent {
   constructor() {
-    super();
+    super(template);
 
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
+    this.$musicControl;
+    this.$musicTimer;
+    this.$audio;
   }
+
+  connectedCallback() {
+    this.$audio = this.shadowRoot.getElementById("music");
+    this.$musicControl = this.shadowRoot.querySelector("music-control");
+    this.$musicTimer = this.shadowRoot.querySelector("music-timer");
+
+    this.initEvent();
+  }
+
+  handleTimeUpdate = (e) => {
+    this.$musicTimer.setAttribute("current-time", e.currentTarget.currentTime);
+  };
+
+  initAttr = () => {
+    console.log(this.$audio.duration);
+    const audioDuration = this.$audio.duration;
+    this.$musicTimer.setAttribute("duration", audioDuration);
+  };
+
+  initEvent = () => {
+    this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
+    this.$audio.addEventListener("loadedmetadata", this.initAttr);
+
+    this.$musicControl.addEventListener("playMusic", () => this.playMusic());
+    this.$musicControl.addEventListener("pauseMusic", () => this.pauseMusic());
+  };
+
+  playMusic = () => {
+    this.$audio.play();
+  };
+
+  pauseMusic = () => {
+    this.$audio.pause();
+  };
+
+  disconnectedCallback = () => {
+    this.$musicControl.removeEventListener("playMusic", this.playMusic);
+    this.$musicControl.removeEventListener("pauseMusic", this.pauseMusic);
+  };
 }
 
 customElements.define(SCREEN.MUSIC_PLAYER, MusicPlayer);

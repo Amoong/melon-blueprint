@@ -44,7 +44,7 @@ const template = html`
     }
   </style>
   <div class="music-timer">
-    <rounded-range margin-bottom="13px"></rounded-range>
+    <rounded-range smooth="true" margin-bottom="13px"></rounded-range>
     <div class="timer-number">
       <span class="elapsed">0:39</span>
       <span class="remained">-1:23</span>
@@ -55,7 +55,27 @@ const template = html`
 class MusicTimer extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$roundedRange = this.shadowRoot.querySelector("rounded-range");
+    this.duration = 0;
   }
+
+  static get observedAttributes() {
+    return ["current-time", "duration"];
+  }
+
+  attributeChangedCallback(attrName, _, newVal) {
+    if (attrName === "current-time") {
+      this.updateCurrentTime(newVal);
+    } else if (attrName === "duration") {
+      this.duration = newVal;
+    }
+  }
+
+  updateCurrentTime = (newVal) => {
+    const rangeValue = this.duration === 0 ? 0 : newVal / this.duration;
+    this.$roundedRange.setAttribute("value", rangeValue);
+  };
 }
 
 customElements.define("music-timer", MusicTimer);
