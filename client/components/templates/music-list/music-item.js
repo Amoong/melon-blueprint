@@ -1,4 +1,5 @@
 import { html, DefaultComponent } from "/client/utils.js";
+import { store } from "/client/store.js";
 
 const template = html`
   <style>
@@ -90,7 +91,7 @@ const template = html`
     <button class="play-btn">
       <img src="/assets/images/a_cassette_tape.webp" alt="Album Jacket" />
       <div class="music-info">
-        <span class="title"></span>
+        <span class="music-title"></span>
         <span class="artist"></span>
       </div>
     </button>
@@ -102,19 +103,43 @@ class MusicItem extends DefaultComponent {
     super(template);
 
     this.$jacket = this.shadowRoot.querySelector("img");
-    this.$title = this.shadowRoot.querySelector(".title");
+    this.$musicTitle = this.shadowRoot.querySelector(".music-title");
     this.$artist = this.shadowRoot.querySelector(".artist");
+    this.$playBtn = this.shadowRoot.querySelector(".play-btn");
 
-    this.$musicId;
+    this.musicTitle;
+    this.artist;
+    this.filename;
   }
 
   static get observedAttributes() {
-    return ["title", "artist", "filename", "musicId"];
+    return ["music-title", "artist", "filename"];
   }
+
+  connectedCallback() {
+    this.$playBtn.addEventListener("click", this.playMusic);
+  }
+
+  playMusic = () => {
+    if (!store.$musicPlayer) {
+      console.error("music player is null");
+      return;
+    }
+
+    const musicSelected = new CustomEvent("musicSelected", {
+      detail: {
+        musicTitle: this.musicTitle,
+        artist: this.artist,
+        filename: this.filename,
+      },
+    });
+
+    store.$musicPlayer.dispatchEvent(musicSelected);
+  };
 
   attributeChangedCallback(attrName, _, newVal) {
     switch (attrName) {
-      case "title":
+      case "music-title":
         this.onChangeTitle(newVal);
         break;
       case "artist":
@@ -123,26 +148,22 @@ class MusicItem extends DefaultComponent {
       case "filename":
         this.onChangeFilename(newVal);
         break;
-      case "musicId":
-        this.onChangeMusicId(newVal);
-        break;
     }
   }
 
-  onChangeTitle = (title) => {
-    this.$title.innerHTML = title;
+  onChangeTitle = (musicTitle) => {
+    this.$musicTitle.innerHTML = musicTitle;
+    this.musicTitle = musicTitle;
   };
 
   onChangeArtist = (artist) => {
     this.$artist.innerHTML = artist;
+    this.artist = artist;
   };
 
   onChangeFilename = (filename) => {
     this.$jacket.src = `/assets/images/jackets/${filename}.jpg`;
-  };
-
-  onChangeMusicId = (musicId) => {
-    this.musicId = musicId;
+    this.filename = filename;
   };
 }
 

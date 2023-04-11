@@ -17,9 +17,11 @@ const template = html`
     }
 
     .screen-wrapper {
+      position: relative;
       width: 394px;
       height: 667px;
       background-color: white;
+      overflow: hidden;
     }
 
     .status-bar {
@@ -32,7 +34,7 @@ const template = html`
     <div class="screen-wrapper">
       <div class="status-bar">STATUS BAR</div>
       <music-list></music-list>
-      <!-- <slot name=${SCREEN.MUSIC_PLAYER}></slot> -->
+      <slot name=${SCREEN.MUSIC_PLAYER}></slot>
     </div>
   </div>
 `;

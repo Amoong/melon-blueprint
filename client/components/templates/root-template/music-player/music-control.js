@@ -134,14 +134,6 @@ class MusicControl extends DefaultComponent {
   constructor() {
     super(template);
 
-    this.$playBtn;
-    this.$rewindBtn;
-    this.$ffBtn;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
     this.$playBtn = this.shadowRoot.querySelector(".play-stop");
     this.$rewindBtn = this.shadowRoot.querySelector(".rewind");
     this.$ffBtn = this.shadowRoot.querySelector(".fast-forward");
@@ -149,26 +141,48 @@ class MusicControl extends DefaultComponent {
     this.$pauseIcon = this.shadowRoot.querySelector(".pause-icon");
     this.$playBtnEffect = this.shadowRoot.querySelector(".play-btn-effect");
 
+    this.$playBtn;
+    this.$rewindBtn;
+    this.$ffBtn;
+  }
+
+  static get observedAttributes() {
+    return ["is-playing"];
+  }
+
+  attributeChangedCallback(attrName, _, newVal) {
+    if (attrName === "is-playing") {
+      this.onChangeIsPlaying(newVal);
+    }
+  }
+
+  onChangeIsPlaying = (isPlaying) => {
+    if (isPlaying) {
+      this.dispatchEventToParent("pauseMusic");
+      this.$playBtn.dataset.isPlaying = "true";
+      this.$playIcon.classList.remove("hide-icon");
+      this.$pauseIcon.classList.add("hide-icon");
+    } else {
+      this.dispatchEventToParent("playMusic");
+      this.$playBtn.dataset.isPlaying = "false";
+      this.$playIcon.classList.add("hide-icon");
+      this.$pauseIcon.classList.remove("hide-icon");
+    }
+  };
+
+  connectedCallback() {
+    super.connectedCallback();
+
     this.$playBtn.addEventListener("click", this.onClickPlayBtn);
     this.$playBtn.addEventListener("pointerdown", this.onPointerDownPlayBtn);
     this.$playBtn.addEventListener("pointerup", this.onPointerUpPlayBtn);
     this.$playBtn.addEventListener("pointerleave", this.onPointerUpPlayBtn);
   }
 
-  onClickPlayBtn = () => {
-    const isPlaying = this.$playBtn.dataset.isPlaying === "true";
-
-    if (isPlaying) {
-      this.dispatchEventToParent("pauseMusic");
-      this.$playBtn.dataset.isPlaying = "false";
-      this.$playIcon.classList.remove("hide-icon");
-      this.$pauseIcon.classList.add("hide-icon");
-    } else {
-      this.dispatchEventToParent("playMusic");
-      this.$playBtn.dataset.isPlaying = "true";
-      this.$playIcon.classList.add("hide-icon");
-      this.$pauseIcon.classList.remove("hide-icon");
-    }
+  onClickPlayBtn = (e) => {
+    console.log("clicked");
+    console.log(e.currentTarget.dataset);
+    this.dispatchEventToParent("controlBtnClick", {});
   };
 
   onPointerDownPlayBtn = () => {
@@ -181,7 +195,7 @@ class MusicControl extends DefaultComponent {
     this.$playBtnEffect.style.transform = "scale(0, 0)";
   };
 
-  dispatchEventToParent = (eventName) => {
+  dispatchEventToParent = (eventName, detail) => {
     this.dispatchEvent(new CustomEvent(eventName));
   };
 }

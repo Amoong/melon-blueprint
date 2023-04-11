@@ -1,5 +1,6 @@
 import { SCREEN } from "../constants.js";
 import { html, DefaultComponent } from "/client/utils.js";
+import { store } from "/client/store.js";
 
 import "./music-info.js";
 import "./music-timer.js";
@@ -10,6 +11,9 @@ import "./other-functions.js";
 const template = html`
   <style>
     .music-player {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       display: flex;
@@ -17,6 +21,8 @@ const template = html`
       align-items: center;
       background-color: olive;
       padding: 10px 30px;
+      transform: translateY(100%);
+      transition: transform 0.2s ease-in-out;
     }
 
     .drawer-btn {
@@ -44,14 +50,14 @@ const template = html`
     <audio
       id="music"
       volume="0.1"
-      src="/static/musics/AlexGrohl - Electric Head.mp3"
+      src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
     <img src="/assets/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="7px"></music-info>
       <music-timer margin-bottom="1px"></music-timer>
-      <music-control margin-bottom="13px"></music-control>
+      <music-control is-playing="false" margin-bottom="13px"></music-control>
       <volume-control margin-bottom="20px"></volume-control>
       <other-functions></other-functions>
     </div>
@@ -68,9 +74,12 @@ class MusicPlayer extends DefaultComponent {
   }
 
   connectedCallback() {
+    this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
     this.$audio = this.shadowRoot.getElementById("music");
     this.$musicControl = this.shadowRoot.querySelector("music-control");
     this.$musicTimer = this.shadowRoot.querySelector("music-timer");
+
+    store.$musicPlayer = this;
 
     this.initEvent();
   }
@@ -90,8 +99,20 @@ class MusicPlayer extends DefaultComponent {
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
 
-    this.$musicControl.addEventListener("playMusic", () => this.playMusic());
-    this.$musicControl.addEventListener("pauseMusic", () => this.pauseMusic());
+    this.$musicControl.addEventListener("playMusic", this.playMusic);
+    this.$musicControl.addEventListener("pauseMusic", this.pauseMusic);
+
+    this.addEventListener("musicSelected", this.handleMusicSelected);
+  };
+
+  handleMusicSelected = (e) => {
+    const {
+      detail: { musicTitle, artist, filename },
+    } = e;
+
+    this.$audio.src = `/assets/musics/${filename}.mp3`;
+    this.$musicPlayer.style.transform = "translateY(0)";
+    this.playMusic();
   };
 
   playMusic = () => {
@@ -103,8 +124,11 @@ class MusicPlayer extends DefaultComponent {
   };
 
   disconnectedCallback = () => {
+    store.$musicPlayer = null;
+
     this.$musicControl.removeEventListener("playMusic", this.playMusic);
     this.$musicControl.removeEventListener("pauseMusic", this.pauseMusic);
+    this.removeEventListener("musicSelected", this.loadMusic);
   };
 }
 

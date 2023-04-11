@@ -31,8 +31,7 @@ class MusicList extends DefaultComponent {
 
     musics.forEach((music) => {
       const $musicItem = document.createElement("music-item");
-      $musicItem.setAttribute("musicId", music._id);
-      $musicItem.setAttribute("title", music.title);
+      $musicItem.setAttribute("music-title", music.title);
       $musicItem.setAttribute("artist", music.artist);
       $musicItem.setAttribute("filename", music.filename);
 
