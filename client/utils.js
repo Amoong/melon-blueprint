@@ -41,6 +41,12 @@ export const html = (...args) => {
         font: inherit;
       }
 
+      button {
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+      }
+
       p,
       span,
       h1,

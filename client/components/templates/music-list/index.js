@@ -1,5 +1,7 @@
 import { html, DefaultComponent } from "/client/utils.js";
 
+import "./music-item.js";
+
 const template = html`
   <style>
     :host {
@@ -8,11 +10,11 @@ const template = html`
 
     .music-list {
       width: 100%;
+      display: flex;
+      flex-direction: column;
     }
   </style>
-  <div class="music-list">
-    <music-item></music-item>
-  </div>
+  <div class="music-list"></div>
 `;
 
 class MusicList extends DefaultComponent {
@@ -23,9 +25,20 @@ class MusicList extends DefaultComponent {
   }
 
   initMusicList = async () => {
-    const res = await (await fetch("/api/songs")).json();
+    const musics = await (await fetch("/api/songs")).json();
 
-    console.log(res);
+    const $listRoot = this.shadowRoot.querySelector(".music-list");
+
+    musics.forEach((music) => {
+      const $musicItem = document.createElement("music-item");
+      $musicItem.setAttribute("musicId", music._id);
+      $musicItem.setAttribute("title", music.title);
+      $musicItem.setAttribute("artist", music.artist);
+      $musicItem.setAttribute("filename", music.filename);
+
+      $listRoot.appendChild($musicItem);
+    });
+    console.log(musics);
   };
 }
 
