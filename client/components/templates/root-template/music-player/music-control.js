@@ -157,16 +157,12 @@ class MusicControl extends DefaultComponent {
   }
 
   onChangeIsPlaying = (isPlaying) => {
-    if (isPlaying) {
-      this.dispatchEventToParent("pauseMusic");
-      this.$playBtn.dataset.isPlaying = "true";
-      this.$playIcon.classList.remove("hide-icon");
-      this.$pauseIcon.classList.add("hide-icon");
-    } else {
-      this.dispatchEventToParent("playMusic");
-      this.$playBtn.dataset.isPlaying = "false";
+    if (isPlaying === "true") {
       this.$playIcon.classList.add("hide-icon");
       this.$pauseIcon.classList.remove("hide-icon");
+    } else {
+      this.$playIcon.classList.remove("hide-icon");
+      this.$pauseIcon.classList.add("hide-icon");
     }
   };
 
@@ -180,9 +176,7 @@ class MusicControl extends DefaultComponent {
   }
 
   onClickPlayBtn = (e) => {
-    console.log("clicked");
-    console.log(e.currentTarget.dataset);
-    this.dispatchEventToParent("controlBtnClick", {});
+    this.dispatchEventToParent("controlBtnClick");
   };
 
   onPointerDownPlayBtn = () => {
@@ -196,7 +190,7 @@ class MusicControl extends DefaultComponent {
   };
 
   dispatchEventToParent = (eventName, detail) => {
-    this.dispatchEvent(new CustomEvent(eventName));
+    this.dispatchEvent(new CustomEvent(eventName, { detail }));
   };
 }
 

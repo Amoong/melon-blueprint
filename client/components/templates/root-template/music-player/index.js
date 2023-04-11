@@ -71,6 +71,8 @@ class MusicPlayer extends DefaultComponent {
     this.$musicControl;
     this.$musicTimer;
     this.$audio;
+
+    this.isPlaying;
   }
 
   connectedCallback() {
@@ -99,8 +101,10 @@ class MusicPlayer extends DefaultComponent {
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
 
-    this.$musicControl.addEventListener("playMusic", this.playMusic);
-    this.$musicControl.addEventListener("pauseMusic", this.pauseMusic);
+    this.$musicControl.addEventListener(
+      "controlBtnClick",
+      this.handleControlBtnClick
+    );
 
     this.addEventListener("musicSelected", this.handleMusicSelected);
   };
@@ -115,12 +119,24 @@ class MusicPlayer extends DefaultComponent {
     this.playMusic();
   };
 
+  handleControlBtnClick = () => {
+    if (this.isPlaying) {
+      this.pauseMusic();
+    } else {
+      this.playMusic();
+    }
+  };
+
   playMusic = () => {
     this.$audio.play();
+    this.isPlaying = true;
+    this.$musicControl.setAttribute("is-playing", "true");
   };
 
   pauseMusic = () => {
     this.$audio.pause();
+    this.isPlaying = false;
+    this.$musicControl.setAttribute("is-playing", "false");
   };
 
   disconnectedCallback = () => {
