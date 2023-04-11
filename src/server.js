@@ -24,7 +24,7 @@ app.use(
 app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
-app.use("/static", express.static("assets"));
+app.use("/assets", express.static("assets"));
 app.use("/client", express.static("client"));
 
 app.use("/", rootRouter);

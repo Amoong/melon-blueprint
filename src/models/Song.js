@@ -6,8 +6,7 @@ const songSchema = new mongoose.Schema({
   filename: { type: String, require: true, trim: true, maxLengh: 100 },
   album: String,
   genres: [{ type: String }],
-  views: Number,
-  time: Number,
+  views: { type: Number, default: 0 },
 });
 
 const Song = mongoose.model("Song", songSchema);

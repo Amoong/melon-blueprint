@@ -44,10 +44,10 @@ const template = html`
     <audio
       id="music"
       volume="0.1"
-      src="/static/musics/AlexGrohl-Electric_Head.mp3"
+      src="/static/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
-    <img src="/client/images/a_cassette_tape.webp" alt="A cassette tape" />
+    <img src="/assets/images/a_cassette_tape.webp" alt="A cassette tape" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="7px"></music-info>
       <music-timer margin-bottom="1px"></music-timer>

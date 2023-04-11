@@ -1,6 +1,8 @@
 import { SCREEN } from "./constants.js";
 import { html } from "/client/utils.js";
 
+import "/client/components/templates/music-list/index.js";
+
 const template = html`
   <style>
     .root {
@@ -29,6 +31,7 @@ const template = html`
   <div class="root">
     <div class="screen-wrapper">
       <div class="status-bar">STATUS BAR</div>
+      <music-list></music-list>
       <slot name=${SCREEN.MUSIC_PLAYER}></slot>
     </div>
   </div>
