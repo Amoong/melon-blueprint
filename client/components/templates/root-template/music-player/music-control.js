@@ -140,6 +140,8 @@ class MusicControl extends DefaultComponent {
   }
 
   connectedCallback() {
+    super.connectedCallback();
+
     this.$playBtn = this.shadowRoot.querySelector(".play-stop");
     this.$rewindBtn = this.shadowRoot.querySelector(".rewind");
     this.$ffBtn = this.shadowRoot.querySelector(".fast-forward");
@@ -148,9 +150,9 @@ class MusicControl extends DefaultComponent {
     this.$playBtnEffect = this.shadowRoot.querySelector(".play-btn-effect");
 
     this.$playBtn.addEventListener("click", this.onClickPlayBtn);
-    this.$playBtn.addEventListener("pointerdown", this.onMouseDownPlayBtn);
-    this.$playBtn.addEventListener("pointerup", this.onMouseUpPlayBtn);
-    this.$playBtn.addEventListener("pointerleave", this.onMouseUpPlayBtn);
+    this.$playBtn.addEventListener("pointerdown", this.onPointerDownPlayBtn);
+    this.$playBtn.addEventListener("pointerup", this.onPointerUpPlayBtn);
+    this.$playBtn.addEventListener("pointerleave", this.onPointerUpPlayBtn);
   }
 
   onClickPlayBtn = () => {
@@ -169,12 +171,12 @@ class MusicControl extends DefaultComponent {
     }
   };
 
-  onMouseDownPlayBtn = () => {
+  onPointerDownPlayBtn = () => {
     this.$playBtnEffect.style.opacity = 1;
     this.$playBtnEffect.style.transform = "scale(1.1, 1.1)";
   };
 
-  onMouseUpPlayBtn = () => {
+  onPointerUpPlayBtn = () => {
     this.$playBtnEffect.style.opacity = 0;
     this.$playBtnEffect.style.transform = "scale(0, 0)";
   };

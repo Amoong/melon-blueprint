@@ -5,12 +5,14 @@ const template = html`
     :host {
       width: 100%;
     }
+
     .rounded-range {
       width: 100%;
       height: 7px;
       border-radius: 4px;
       background-color: rgba(255, 255, 255, 0.3);
       overflow: hidden;
+      transition: transform 0.2s ease-in-out;
     }
 
     .filled {
@@ -34,12 +36,27 @@ class RoundedRange extends DefaultComponent {
   constructor() {
     super(template);
 
+    this.$container = this.shadowRoot.querySelector(".rounded-range");
     this.$filled = this.shadowRoot.querySelector(".filled");
   }
 
   static get observedAttributes() {
     return ["value", "smooth"];
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.$container.addEventListener("pointerdown", this.onPointerDown);
+    this.$container.addEventListener("pointerup", this.onPointerUp);
+  }
+
+  onPointerDown = () => {
+    this.$container.style.transform = "scale(1.05, 2)";
+  };
+
+  onPointerUp = () => {
+    this.$container.style.transform = "scale(1, 1)";
+  };
 
   attributeChangedCallback(name, _, newValue) {
     if (name === "value") {
