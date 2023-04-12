@@ -76,6 +76,7 @@ class MusicPlayer extends DefaultComponent {
   }
 
   connectedCallback() {
+    this.$musicInfo = this.shadowRoot.querySelector("music-info");
     this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
     this.$audio = this.shadowRoot.getElementById("music");
     this.$musicControl = this.shadowRoot.querySelector("music-control");
@@ -91,9 +92,7 @@ class MusicPlayer extends DefaultComponent {
   };
 
   initAttr = () => {
-    console.log("init");
     const audioDuration = this.$audio.duration;
-    console.log(audioDuration);
     this.$musicTimer.setAttribute("duration", audioDuration);
   };
 
@@ -113,6 +112,9 @@ class MusicPlayer extends DefaultComponent {
     const {
       detail: { musicTitle, artist, filename },
     } = e;
+
+    this.$musicInfo.setAttribute("music-title", musicTitle);
+    this.$musicInfo.setAttribute("artist", artist);
 
     this.$audio.src = `/assets/musics/${filename}.mp3`;
     this.$musicPlayer.style.transform = "translateY(0)";

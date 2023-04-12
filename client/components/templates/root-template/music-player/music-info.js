@@ -23,7 +23,7 @@ const template = html`
       gap: 6px;
     }
 
-    .music {
+    .music-title {
       font-size: 20px;
       font-weight: 500;
       color: white;
@@ -52,8 +52,8 @@ const template = html`
 
   <div class="music-info">
     <div class="meta-data">
-      <span class="music">We Will Rock You</span>
-      <span class="artist">Queen</span>
+      <span class="music-title"></span>
+      <span class="artist"></span>
     </div>
     <button class="action-btn">
       <svg
@@ -76,7 +76,33 @@ const template = html`
 class MusicInfo extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$musicTitle = this.shadowRoot.querySelector(".music-title");
+    this.$artist = this.shadowRoot.querySelector(".artist");
   }
+
+  static get observedAttributes() {
+    return ["music-title", "artist"];
+  }
+
+  attributeChangedCallback(attrName, _, newVal) {
+    switch (attrName) {
+      case "music-title":
+        this.onChangeMusicTitle(newVal);
+        break;
+      case "artist":
+        this.onChangeArtist(newVal);
+        break;
+    }
+  }
+
+  onChangeMusicTitle = (musicTitle) => {
+    this.$musicTitle.innerHTML = musicTitle;
+  };
+
+  onChangeArtist = (artist) => {
+    this.$artist.innerHTML = artist;
+  };
 }
 
 customElements.define("music-info", MusicInfo);
