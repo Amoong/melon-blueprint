@@ -8,6 +8,8 @@ import "./music-control.js";
 import "./volume-control.js";
 import "./other-functions.js";
 
+const FALL_BACK_JACKET_SRC = "/assets/images/jackets/fallback.webp";
+
 const template = html`
   <style>
     .music-player {
@@ -19,10 +21,21 @@ const template = html`
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: olive;
       padding: 10px 30px;
       transform: translateY(100%);
       transition: transform 0.2s ease-in-out;
+      background-size: cover;
+      background-color: #323232;
+    }
+
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      filter: blur(40px) opacity(50%);
+      z-index: -1;
     }
 
     .drawer-btn {
@@ -34,7 +47,7 @@ const template = html`
       margin-bottom: 30px;
     }
 
-    img {
+    .album-jacket {
       width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: cover;
@@ -49,13 +62,14 @@ const template = html`
     }
   </style>
   <div class="music-player">
+    <img class="background"></img>
     <audio
       id="music"
       volume="0.1"
       src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
-    <img src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
+    <img class="album-jacket" src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="7px"></music-info>
       <music-timer margin-bottom="1px"></music-timer>
@@ -78,9 +92,10 @@ class MusicPlayer extends DefaultComponent {
   }
 
   connectedCallback() {
-    this.$img = this.shadowRoot.querySelector("img");
-    this.$musicInfo = this.shadowRoot.querySelector("music-info");
     this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
+    this.$background = this.shadowRoot.querySelector(".background");
+    this.$albumJacket = this.shadowRoot.querySelector(".album-jacket");
+    this.$musicInfo = this.shadowRoot.querySelector("music-info");
     this.$audio = this.shadowRoot.getElementById("music");
     this.$musicControl = this.shadowRoot.querySelector("music-control");
     this.$musicTimer = this.shadowRoot.querySelector("music-timer");
@@ -100,7 +115,8 @@ class MusicPlayer extends DefaultComponent {
   };
 
   initEvent = () => {
-    this.$img.addEventListener("error", this.handleImgError);
+    this.$albumJacket.addEventListener("error", this.handleImgError);
+    this.$background.addEventListener("error", this.handleImgError);
 
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
@@ -114,7 +130,7 @@ class MusicPlayer extends DefaultComponent {
   };
 
   handleImgError = (e) => {
-    e.currentTarget.setAttribute("src", "/assets/images/jackets/fallback.webp");
+    e.currentTarget.setAttribute("src", FALL_BACK_JACKET_SRC);
   };
 
   handleMusicSelected = (e) => {
@@ -122,7 +138,10 @@ class MusicPlayer extends DefaultComponent {
       detail: { musicTitle, artist, filename },
     } = e;
 
-    this.$img.setAttribute("src", `/assets/images/jackets/${filename}.jpg`);
+    const jacketImgSrc = `/assets/images/jackets/${filename}.jpg`;
+
+    this.$background.setAttribute("src", jacketImgSrc);
+    this.$albumJacket.setAttribute("src", jacketImgSrc);
 
     this.$musicInfo.setAttribute("music-title", musicTitle);
     this.$musicInfo.setAttribute("artist", artist);
