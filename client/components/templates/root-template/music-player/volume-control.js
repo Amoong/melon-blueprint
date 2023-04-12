@@ -18,7 +18,7 @@ const template = html`
 
     .range-wrapper {
       width: 100%;
-      padding: 15px;
+      padding: 10px;
       margin-top: -3px;
     }
 

@@ -71,9 +71,9 @@ const template = html`
     <button class="drawer-btn"></button>
     <img class="album-jacket" src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
     <div class="bottom-wrapper">
-      <music-info margin-bottom="7px"></music-info>
-      <music-timer margin-bottom="1px"></music-timer>
-      <music-control is-playing="false" margin-bottom="13px"></music-control>
+      <music-info margin-bottom="8px"></music-info>
+      <music-timer margin-bottom="10px" duration current-time></music-timer>
+      <music-control is-playing="false" margin-bottom="18px"></music-control>
       <volume-control margin-bottom="20px"></volume-control>
       <other-functions></other-functions>
     </div>
@@ -92,6 +92,8 @@ class MusicPlayer extends DefaultComponent {
   }
 
   connectedCallback() {
+    store.$musicPlayer = this;
+
     this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
     this.$background = this.shadowRoot.querySelector(".background");
     this.$albumJacket = this.shadowRoot.querySelector(".album-jacket");
@@ -100,7 +102,7 @@ class MusicPlayer extends DefaultComponent {
     this.$musicControl = this.shadowRoot.querySelector("music-control");
     this.$musicTimer = this.shadowRoot.querySelector("music-timer");
 
-    store.$musicPlayer = this;
+    this.duration = 0;
 
     this.initEvent();
   }
@@ -112,6 +114,7 @@ class MusicPlayer extends DefaultComponent {
   initAttr = () => {
     const audioDuration = this.$audio.duration;
     this.$musicTimer.setAttribute("duration", audioDuration);
+    this.duration = audioDuration;
   };
 
   initEvent = () => {
@@ -121,6 +124,7 @@ class MusicPlayer extends DefaultComponent {
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
 
+    this.$musicTimer.addEventListener("rangeMove", this.handleRangeMove);
     this.$musicControl.addEventListener(
       "controlBtnClick",
       this.handleControlBtnClick
@@ -149,6 +153,17 @@ class MusicPlayer extends DefaultComponent {
     this.$audio.src = `/assets/musics/${filename}.mp3`;
     this.$musicPlayer.style.transform = "translateY(0)";
     this.playMusic();
+  };
+
+  handleRangeMove = (e) => {
+    const {
+      detail: { ratio },
+    } = e;
+
+    const currentTime = this.duration * ratio;
+
+    this.$musicTimer.setAttribute("current-time", currentTime);
+    this.$audio.currentTime = currentTime;
   };
 
   handleControlBtnClick = () => {

@@ -26,7 +26,7 @@ const template = html`
     .music-title {
       font-size: 20px;
       font-weight: 500;
-      color: white;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .artist {
