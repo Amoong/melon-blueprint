@@ -37,7 +37,6 @@ class MusicList extends DefaultComponent {
 
       $listRoot.appendChild($musicItem);
     });
-    console.log(musics);
   };
 }
 

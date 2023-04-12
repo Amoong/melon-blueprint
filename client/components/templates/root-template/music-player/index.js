@@ -36,6 +36,8 @@ const template = html`
 
     img {
       width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
       margin-bottom: 27px;
@@ -53,7 +55,7 @@ const template = html`
       src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
-    <img src="/assets/images/a_cassette_tape.webp" alt="A cassette tape" />
+    <img src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="7px"></music-info>
       <music-timer margin-bottom="1px"></music-timer>
@@ -76,6 +78,7 @@ class MusicPlayer extends DefaultComponent {
   }
 
   connectedCallback() {
+    this.$img = this.shadowRoot.querySelector("img");
     this.$musicInfo = this.shadowRoot.querySelector("music-info");
     this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
     this.$audio = this.shadowRoot.getElementById("music");
@@ -97,6 +100,8 @@ class MusicPlayer extends DefaultComponent {
   };
 
   initEvent = () => {
+    this.$img.addEventListener("error", this.handleImgError);
+
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
 
@@ -108,10 +113,16 @@ class MusicPlayer extends DefaultComponent {
     this.addEventListener("musicSelected", this.handleMusicSelected);
   };
 
+  handleImgError = (e) => {
+    e.currentTarget.setAttribute("src", "/assets/images/jackets/fallback.webp");
+  };
+
   handleMusicSelected = (e) => {
     const {
       detail: { musicTitle, artist, filename },
     } = e;
+
+    this.$img.setAttribute("src", `/assets/images/jackets/${filename}.jpg`);
 
     this.$musicInfo.setAttribute("music-title", musicTitle);
     this.$musicInfo.setAttribute("artist", artist);
