@@ -1,7 +1,7 @@
-import { SCREEN } from "../constants.js";
 import { html, DefaultComponent } from "/client/utils.js";
 import { store } from "/client/store.js";
 
+import "./drawer-button.js";
 import "./music-info.js";
 import "./music-timer.js";
 import "./music-control.js";
@@ -13,17 +13,12 @@ const FALL_BACK_JACKET_SRC = "/assets/images/jackets/fallback.webp";
 const template = html`
   <style>
     .music-player {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 10px 30px;
-      transform: translateY(100%);
-      transition: transform 0.2s ease-in-out;
       background-size: cover;
       background-color: #323232;
     }
@@ -36,15 +31,6 @@ const template = html`
       height: 100%;
       filter: blur(40px) opacity(50%);
       z-index: -1;
-    }
-
-    .drawer-btn {
-      width: 38px;
-      height: 6px;
-      background-color: rgba(255, 255, 255, 0.5);
-      border: 0;
-      border-radius: 3px;
-      margin-bottom: 30px;
     }
 
     .album-jacket {
@@ -68,7 +54,7 @@ const template = html`
       volume=0.1
       src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
-    <button class="drawer-btn"></button>
+   <drawer-button></drawer-button> 
     <img class="album-jacket" src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="8px"></music-info>
@@ -84,26 +70,21 @@ class MusicPlayer extends DefaultComponent {
   constructor() {
     super(template);
 
-    this.$musicControl;
-    this.$musicTimer;
-    this.$audio;
-
-    this.isPlaying;
-  }
-
-  connectedCallback() {
     store.$musicPlayer = this;
 
     this.$musicPlayer = this.shadowRoot.querySelector(".music-player");
     this.$background = this.shadowRoot.querySelector(".background");
+    this.$audio = this.shadowRoot.getElementById("music");
+    this.$drawerBtn = this.shadowRoot.querySelector("drawer-button");
     this.$albumJacket = this.shadowRoot.querySelector(".album-jacket");
     this.$musicInfo = this.shadowRoot.querySelector("music-info");
-    this.$audio = this.shadowRoot.getElementById("music");
     this.$musicTimer = this.shadowRoot.querySelector("music-timer");
     this.$musicControl = this.shadowRoot.querySelector("music-control");
     this.$volumeControl = this.shadowRoot.querySelector("volume-control");
 
     this.duration = 0;
+
+    this.isPlaying;
 
     this.initEvent();
   }
@@ -119,6 +100,9 @@ class MusicPlayer extends DefaultComponent {
   };
 
   initEvent = () => {
+    this.$drawerBtn.addEventListener("buttonMove", this.handleButtonMove);
+    this.$drawerBtn.addEventListener("buttonMoveEnd", this.handleButtonMoveEnd);
+
     this.$albumJacket.addEventListener("error", this.handleImgError);
     this.$background.addEventListener("error", this.handleImgError);
 
@@ -137,6 +121,16 @@ class MusicPlayer extends DefaultComponent {
     );
 
     this.addEventListener("musicSelected", this.handleMusicSelected);
+  };
+
+  handleButtonMove = (e) => {
+    const evt = new CustomEvent("buttonMove", { detail: e.detail });
+    this.dispatchEvent(evt);
+  };
+
+  handleButtonMoveEnd = () => {
+    const evt = new CustomEvent("buttonMoveEnd");
+    this.dispatchEvent(evt);
   };
 
   handleImgError = (e) => {
@@ -161,7 +155,6 @@ class MusicPlayer extends DefaultComponent {
 
     this.$volumeControl.setAttribute("volume", 0.1);
 
-    this.$musicPlayer.style.transform = "translateY(0)";
     this.playMusic();
   };
 
@@ -205,12 +198,10 @@ class MusicPlayer extends DefaultComponent {
   };
 
   disconnectedCallback = () => {
-    store.$musicPlayer = null;
-
     this.$musicControl.removeEventListener("playMusic", this.playMusic);
     this.$musicControl.removeEventListener("pauseMusic", this.pauseMusic);
     this.removeEventListener("musicSelected", this.loadMusic);
   };
 }
 
-customElements.define(SCREEN.MUSIC_PLAYER, MusicPlayer);
+customElements.define("music-player", MusicPlayer);

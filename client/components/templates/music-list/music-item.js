@@ -121,8 +121,7 @@ class MusicItem extends DefaultComponent {
   }
 
   playMusic = () => {
-    if (!store.$musicPlayer) {
-      console.error("music player is null");
+    if (!store.$root || !store.$musicPlayer) {
       return;
     }
 
@@ -134,6 +133,7 @@ class MusicItem extends DefaultComponent {
       },
     });
 
+    store.$root.dispatchEvent(musicSelected);
     store.$musicPlayer.dispatchEvent(musicSelected);
   };
 
