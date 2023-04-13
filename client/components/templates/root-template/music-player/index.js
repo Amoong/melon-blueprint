@@ -65,7 +65,7 @@ const template = html`
     <img class="background"></img>
     <audio
       id="music"
-      volume="0.1"
+      volume=0.1
       src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
     <button class="drawer-btn"></button>
@@ -74,7 +74,7 @@ const template = html`
       <music-info margin-bottom="8px"></music-info>
       <music-timer margin-bottom="10px" duration current-time></music-timer>
       <music-control is-playing="false" margin-bottom="18px"></music-control>
-      <volume-control margin-bottom="20px"></volume-control>
+      <volume-control margin-bottom="20px" volume></volume-control>
       <other-functions></other-functions>
     </div>
   </div>
@@ -99,8 +99,9 @@ class MusicPlayer extends DefaultComponent {
     this.$albumJacket = this.shadowRoot.querySelector(".album-jacket");
     this.$musicInfo = this.shadowRoot.querySelector("music-info");
     this.$audio = this.shadowRoot.getElementById("music");
-    this.$musicControl = this.shadowRoot.querySelector("music-control");
     this.$musicTimer = this.shadowRoot.querySelector("music-timer");
+    this.$musicControl = this.shadowRoot.querySelector("music-control");
+    this.$volumeControl = this.shadowRoot.querySelector("volume-control");
 
     this.duration = 0;
 
@@ -124,10 +125,15 @@ class MusicPlayer extends DefaultComponent {
     this.$audio.addEventListener("timeupdate", this.handleTimeUpdate);
     this.$audio.addEventListener("loadedmetadata", this.initAttr);
 
-    this.$musicTimer.addEventListener("rangeMove", this.handleRangeMove);
+    this.$musicTimer.addEventListener("rangeMove", this.handleTimerRangeMove);
     this.$musicControl.addEventListener(
       "controlBtnClick",
       this.handleControlBtnClick
+    );
+
+    this.$volumeControl.addEventListener(
+      "rangeMove",
+      this.handleVolumeRangeMove
     );
 
     this.addEventListener("musicSelected", this.handleMusicSelected);
@@ -151,11 +157,15 @@ class MusicPlayer extends DefaultComponent {
     this.$musicInfo.setAttribute("artist", artist);
 
     this.$audio.src = `/assets/musics/${filename}.mp3`;
+    this.$audio.volume = 0.1;
+
+    this.$volumeControl.setAttribute("volume", 0.1);
+
     this.$musicPlayer.style.transform = "translateY(0)";
     this.playMusic();
   };
 
-  handleRangeMove = (e) => {
+  handleTimerRangeMove = (e) => {
     const {
       detail: { ratio },
     } = e;
@@ -172,6 +182,14 @@ class MusicPlayer extends DefaultComponent {
     } else {
       this.playMusic();
     }
+  };
+
+  handleVolumeRangeMove = (e) => {
+    const {
+      detail: { ratio },
+    } = e;
+    this.$volumeControl.setAttribute("volume", ratio);
+    this.$audio.volume = ratio;
   };
 
   playMusic = () => {

@@ -72,7 +72,34 @@ const template = html`
 class VolumeControl extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$range = this.shadowRoot.querySelector("rounded-range");
+    this.initEvent();
   }
+
+  static get observedAttributes() {
+    return ["volume"];
+  }
+
+  initEvent = () => {
+    this.$range.addEventListener("rangeMove", this.handleRangeMove);
+  };
+
+  attributeChangedCallback(name, _, newVal) {
+    if (name === "volume") {
+      this.onChangeVolume(newVal);
+    }
+  }
+
+  onChangeVolume = (newVal) => {
+    this.$range.setAttribute("value", newVal);
+  };
+
+  handleRangeMove = (e) => {
+    const evt = new CustomEvent("rangeMove", { detail: e.detail });
+
+    this.dispatchEvent(evt);
+  };
 }
 
 customElements.define("volume-control", VolumeControl);

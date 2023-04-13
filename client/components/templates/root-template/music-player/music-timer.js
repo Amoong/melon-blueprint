@@ -87,7 +87,6 @@ class MusicTimer extends DefaultComponent {
   }
 
   onChangeCurrentTime = (currentTime) => {
-    console.log("hi");
     this.currentTime = currentTime;
     this.updateRangeValue();
     this.updateElapsed();
