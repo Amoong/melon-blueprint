@@ -13,13 +13,9 @@ const FALL_BACK_JACKET_SRC = "/assets/images/jackets/fallback.webp";
 const template = html`
   <style>
     .music-player {
+      position: relative;
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 30px;
-      background-size: cover;
       background-color: #323232;
     }
 
@@ -30,7 +26,17 @@ const template = html`
       width: 100%;
       height: 100%;
       filter: blur(40px) opacity(50%);
-      z-index: -1;
+    }
+
+    .contents {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 30px;
+      z-index: 1;      
     }
 
     .album-jacket {
@@ -54,7 +60,8 @@ const template = html`
       volume=0.1
       src="/assets/musics/AlexGrohl - Electric Head.mp3"
     ></audio>
-   <drawer-button></drawer-button> 
+   <div class="contents">
+    <drawer-button></drawer-button> 
     <img class="album-jacket" src="/assets/images/jackets/fallback.webp" alt="Album Jacket" />
     <div class="bottom-wrapper">
       <music-info margin-bottom="8px"></music-info>
@@ -63,6 +70,7 @@ const template = html`
       <volume-control margin-bottom="20px" volume></volume-control>
       <other-functions></other-functions>
     </div>
+   </div> 
   </div>
 `;
 

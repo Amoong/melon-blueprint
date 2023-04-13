@@ -104,7 +104,7 @@ class RootTemplate extends DefaultComponent {
 
     const localY = playerY - wrapperY;
 
-    const translateY = localY + e.detail.offsetY;
+    let translateY = localY + e.detail.offsetY;
 
     if (translateY < 0) {
       translateY = 0;
