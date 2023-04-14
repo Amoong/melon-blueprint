@@ -44,6 +44,9 @@ const template = html`
     <div class="screen-wrapper">
       <div class="status-bar">Lorem ipsum dolor sit, amet consectetur a</div>
       <my-music></my-music>
+      <div class="navigation-bar-wrapper">
+        <navigation-bar></navigation-bar>
+      </div>
       <div class="music-player-wrapper">
         <music-player></music-player>
       </div>

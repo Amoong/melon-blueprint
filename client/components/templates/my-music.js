@@ -138,20 +138,17 @@ const template = html`
         <play-button>
           <svg
             slot="icon"
-            width="20px"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="currentColor"
+            width="15px"
             viewBox="0 0 24 24"
-            class="humbleicons hi-arrow-split"
+            xmlns="http://www.w3.org/2000/svg"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="1.5"
           >
             <path
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 12h4.597a5 5 0 013.904 1.877l.998 1.246A5 5 0 0016.403 17H21m0 0l-3-3m3 3l-3 3m3-13h-5.078A4 4 0 0012.8 8.501L11.201 10.5A4 4 0 018.078 12H6m15-5l-3-3m3 3l-3 3"
+              d="M21.67 3.955l-2.825-2.202.665-.753 4.478 3.497-4.474 3.503-.665-.753 2.942-2.292h-4.162c-3.547.043-5.202 3.405-6.913 7.023 1.711 3.617 3.366 6.979 6.913 7.022h4.099l-2.883-2.247.665-.753 4.478 3.497-4.474 3.503-.665-.753 2.884-2.247h-4.11c-3.896-.048-5.784-3.369-7.461-6.858-1.687 3.51-3.592 6.842-7.539 6.858h-2.623v-1h2.621c3.6-.014 5.268-3.387 6.988-7.022-1.72-3.636-3.388-7.009-6.988-7.023h-2.621v-1h2.623c3.947.016 5.852 3.348 7.539 6.858 1.677-3.489 3.565-6.81 7.461-6.858h4.047z"
             />
           </svg>
           <span slot="text">임의 재생</span>
