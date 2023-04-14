@@ -11,15 +11,22 @@ const template = html`
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 43px;
+      height: 46px;
       border-radius: 10px;
       background-color: #eeeeef;
       color: #fa233a;
     }
 
+    slot[name="icon"] {
+      height: 10px;
+    }
+
     slot[name="text"] {
       color: #fa233a;
       font-weight: 700;
+      font-size: 17px;
+      margin-left: 3px;
+      margin-top: 3px;
     }
   </style>
   <button class="play-button">

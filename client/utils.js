@@ -23,6 +23,7 @@ export const html = (...args) => {
       body {
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
+        font-family: "AppleSDGothicNeo";
       }
 
       img,
@@ -56,7 +57,7 @@ export const html = (...args) => {
       h5,
       h6 {
         overflow-wrap: break-word;
-        font-family: Inter, Noto Sans KR, sans-serif;
+        font-family: "AppleSDGothicNeo";
       }
 
       #root,

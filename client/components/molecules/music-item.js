@@ -58,13 +58,13 @@ const template = html`
       text-overflow: ellipsis;
     }
 
-    .title {
-      font-size: 14px;
-      font-weight: bold;
+    .music-title {
+      font-size: 17px;
+      font-weight: 600;
     }
 
     .artist {
-      font-size: 12px;
+      font-size: 13px;
       color: #a0a0a0;
     }
 

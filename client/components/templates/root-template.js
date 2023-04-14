@@ -37,12 +37,12 @@ const template = html`
     .status-bar {
       width: 100%;
       height: 18px;
-      background-color: pink;
+      background-color: white;
     }
   </style>
   <div class="root">
     <div class="screen-wrapper">
-      <div class="status-bar">STATUS BAR</div>
+      <div class="status-bar">Lorem ipsum dolor sit, amet consectetur a</div>
       <my-music></my-music>
       <div class="music-player-wrapper">
         <music-player></music-player>

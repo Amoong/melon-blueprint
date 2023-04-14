@@ -11,26 +11,30 @@ const template = html`
       display: flex;
       align-items: center;
       width: 100%;
-      height: 30px;
-      padding: 5px;
+      height: 37px;
+      padding: 0 6px;
       background-color: #eeeeef;
-      border-radius: 5px;
+      border-radius: 10px;
+      color: #a1a1a4;
     }
 
     svg {
-      height: 100%;
+      height: 54%;
     }
 
     span {
-      font-size: 13px;
-      margin-left: 10px;
+      font-size: 17px;
+      margin-left: 5px;
+      color: #95959f;
+      font-weight: 500;
+      margin-top: 2px;
     }
   </style>
   <div class="search-bar">
     <svg
       fill="none"
       stroke="currentColor"
-      stroke-width="1.5"
+      stroke-width="2"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
