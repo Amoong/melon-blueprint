@@ -12,7 +12,7 @@ const template = html`
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
   </style>
   <div class="music-list"></div>
