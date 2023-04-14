@@ -1,8 +1,8 @@
 import { html, DefaultComponent } from "/client/utils.js";
 import { store } from "/client/store.js";
 
-import "/client/components/templates/music-list/index.js";
 import "./music-player/index.js";
+import "./my-music.js";
 
 const template = html`
   <style>
@@ -43,7 +43,7 @@ const template = html`
   <div class="root">
     <div class="screen-wrapper">
       <div class="status-bar">STATUS BAR</div>
-      <music-list></music-list>
+      <my-music></my-music>
       <div class="music-player-wrapper">
         <music-player></music-player>
       </div>

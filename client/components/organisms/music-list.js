@@ -1,6 +1,6 @@
 import { html, DefaultComponent } from "/client/utils.js";
 
-import "./music-item.js";
+import "/client/components/molecules/music-item.js";
 
 const template = html`
   <style>
@@ -12,6 +12,7 @@ const template = html`
       width: 100%;
       display: flex;
       flex-direction: column;
+      gap: 2px;
     }
   </style>
   <div class="music-list"></div>

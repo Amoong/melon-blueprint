@@ -12,7 +12,7 @@ const template = html`
       display: flex;
       align-items: center;
       width: 100%;
-      height: 50px;
+      height: 54px;
     }
 
     .play-btn {
@@ -46,8 +46,10 @@ const template = html`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      width: 100%;
       gap: 5px;
-      padding: 10px 0;
+      padding: 8px 0;
+      border-bottom: 1px solid #e2e3e4;
     }
 
     .music-info > span {

@@ -1,5 +1,4 @@
-import "./components/templates/root-template/index.js";
-import "./components/templates/root-template/music-player/index.js";
+import "./components/templates/root-template.js";
 
 import { html, DefaultComponent } from "/client/utils.js";
 
