@@ -17,8 +17,9 @@ const template = html`
       color: #fa233a;
     }
 
-    span {
+    slot[name="text"] {
       color: #fa233a;
+      font-weight: 700;
     }
   </style>
   <button class="play-button">

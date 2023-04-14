@@ -56,7 +56,7 @@ export const html = (...args) => {
       h5,
       h6 {
         overflow-wrap: break-word;
-        font-family: 'Inter', sans-serif;
+        font-family: Inter, Noto Sans KR, sans-serif;
       }
 
       #root,
