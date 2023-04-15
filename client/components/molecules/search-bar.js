@@ -15,7 +15,7 @@ const template = html`
       padding: 0 6px;
       background-color: #eeeeef;
       border-radius: 10px;
-      color: #a1a1a4;
+      color: rgb(130, 130, 134);
     }
 
     svg {
@@ -26,8 +26,7 @@ const template = html`
       font-size: 17px;
       margin-left: 5px;
       color: #95959f;
-      font-weight: 500;
-      margin-top: 2px;
+      font-weight: 300;
     }
   </style>
   <div class="search-bar">

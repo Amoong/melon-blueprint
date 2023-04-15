@@ -2,6 +2,7 @@ import { html, DefaultComponent } from "/client/utils.js";
 import { store } from "/client/store.js";
 
 import "./music-player/index.js";
+import "/client/components/organisms/navigation-bar.js";
 import "./my-music.js";
 
 const template = html`
@@ -17,6 +18,13 @@ const template = html`
       background-color: black;
     }
 
+    .navigation-bar-wrapper {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
     .music-player-wrapper {
       width: 100%;
       height: 100%;
@@ -28,16 +36,19 @@ const template = html`
 
     .screen-wrapper {
       position: relative;
-      width: 394px;
+      width: 375px;
       height: 667px;
       background-color: white;
       overflow: hidden;
     }
 
     .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 18px;
-      background-color: white;
+      background-color: transparent;
     }
   </style>
   <div class="root">
