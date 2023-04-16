@@ -81,6 +81,11 @@ class RootTemplate extends DefaultComponent {
     );
     this.$musicPlayer = this.shadowRoot.querySelector("music-player");
 
+    this.$page = {
+      "my-music": this.shadowRoot.querySelector("my-music"),
+      "listen-now": this.shadowRoot.querySelector("listen-now"),
+    };
+
     store.$root = this;
 
     this.initEvent();
@@ -98,7 +103,16 @@ class RootTemplate extends DefaultComponent {
   };
 
   handleChangeNav = (e) => {
-    this.$nav.setAttribute("selected-menu", e.detail.id);
+    const {
+      detail: { id },
+    } = e;
+    this.$nav.setAttribute("selected-menu", id);
+
+    Object.values(this.$page).forEach((page) =>
+      page.setAttribute("slot", undefined)
+    );
+
+    this.$page[id].setAttribute("slot", "page");
   };
 
   handleMusicSelected = () => {
