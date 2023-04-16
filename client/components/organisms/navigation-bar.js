@@ -1,5 +1,13 @@
 import { html, DefaultComponent } from "/client/utils.js";
 
+export const NAV_MENU = {
+  LISTEN_NOW: "listen-now",
+  BROWSING: "browsing",
+  RADIO: "radio",
+  MY_MUSIC: "my-music",
+  SEARCH: "search",
+};
+
 const template = html`
   <style>
     :host {
@@ -31,13 +39,18 @@ const template = html`
       font-size: 10px;
     }
 
+    button.selected,
+    .selected span {
+      color: #fa233a;
+    }
+
     .music-icon {
       position: absolute;
       top: 14px;
     }
   </style>
   <div class="navigation-bar">
-    <button class="listen-now">
+    <button class=${NAV_MENU.LISTEN_NOW}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -50,7 +63,7 @@ const template = html`
       </svg>
       <span>지금 듣기</span>
     </button>
-    <button class="browseing">
+    <button class=${NAV_MENU.BROWSING}>
       <svg
         style="transform: scale(1.2);"
         height="24"
@@ -67,7 +80,7 @@ const template = html`
       </svg>
       <span>둘러보기</span>
     </button>
-    <button class="radio">
+    <button class=${NAV_MENU.RADIO}>
       <svg
         height="24"
         style="transform: scale(1.2);"
@@ -87,7 +100,7 @@ const template = html`
       </svg>
       <span>라디오</span>
     </button>
-    <button class="my-music">
+    <button class=${NAV_MENU.MY_MUSIC}>
       <svg
         height="24"
         xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +129,7 @@ const template = html`
       </svg>
       <span>보관함</span>
     </button>
-    <button class="search">
+    <button class=${NAV_MENU.SEARCH}>
       <svg
         height="24"
         style="transform: scale(1.1);"
@@ -141,7 +154,44 @@ const template = html`
 class NavigationBar extends DefaultComponent {
   constructor() {
     super(template);
+
+    this.$listenNowBtn = this.shadowRoot.querySelector(
+      `.${NAV_MENU.LISTEN_NOW}`
+    );
+    this.$browsingBtn = this.shadowRoot.querySelector(`.${NAV_MENU.BROWSING}`);
+    this.$RadioBtn = this.shadowRoot.querySelector(`.${NAV_MENU.RADIO}`);
+    this.$myMusicBtn = this.shadowRoot.querySelector(`.${NAV_MENU.MY_MUSIC}`);
+    this.$searchBtn = this.shadowRoot.querySelector(`.${NAV_MENU.SEARCH}`);
+
+    this.$btns = [
+      this.$listenNowBtn,
+      this.$browsingBtn,
+      this.$RadioBtn,
+      this.$myMusicBtn,
+      this.$searchBtn,
+    ];
+
+    console.log(this.$btns);
   }
+
+  static get observedAttributes() {
+    return ["selected-menu"];
+  }
+
+  attributeChangedCallback(attrName, _, newVal) {
+    if (attrName === "selected-menu") {
+      this.onChangeSelectedMenu(newVal);
+    }
+  }
+
+  onChangeSelectedMenu = (attrName) => {
+    console.log(attrName);
+    this.$btns.forEach(($btn) => {
+      $btn.classList.remove("selected");
+    });
+
+    this.shadowRoot.querySelector(`.${attrName}`).classList.add("selected");
+  };
 }
 
 customElements.define("navigation-bar", NavigationBar);

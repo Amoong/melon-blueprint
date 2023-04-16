@@ -1,8 +1,8 @@
 import { html, DefaultComponent } from "/client/utils.js";
 import { store } from "/client/store.js";
+import { NAV_MENU } from "/client/components/organisms/navigation-bar.js";
 
 import "./music-player/index.js";
-import "/client/components/organisms/navigation-bar.js";
 import "./my-music.js";
 
 const template = html`
@@ -56,7 +56,7 @@ const template = html`
       <div class="status-bar">Lorem ipsum dolor sit, amet consectetur a</div>
       <my-music></my-music>
       <div class="navigation-bar-wrapper">
-        <navigation-bar></navigation-bar>
+        <navigation-bar selected-menu=${NAV_MENU.LISTEN_NOW}></navigation-bar>
       </div>
       <div class="music-player-wrapper">
         <music-player></music-player>
