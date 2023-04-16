@@ -3,6 +3,7 @@ import { html, DefaultComponent } from "/client/utils.js";
 import "/client/components/molecules/search-bar.js";
 import "/client/components/atom/play-button.js";
 import "/client/components/organisms/music-list.js";
+import "/client/components/molecules/common-header.js";
 
 const template = html`
   <style>
@@ -57,13 +58,6 @@ const template = html`
       padding: 6px 20px;
     }
 
-    h1 {
-      margin-bottom: 12px;
-      font-size: 35px;
-      font-weight: 600;
-      color: rgb(1, 1, 1);
-    }
-
     .button-wrapper {
       display: flex;
       justify-content: space-between;
@@ -108,7 +102,7 @@ const template = html`
       </button>
     </div>
     <div class="body">
-      <h1>노래</h1>
+      <common-header page-title="노래"></common-header>
       <search-bar margin-bottom="27px"></search-bar>
       <div class="button-wrapper">
         <play-button btn-text="재생">
