@@ -50,7 +50,7 @@ const template = html`
     }
   </style>
   <div class="navigation-bar">
-    <button class=${NAV_MENU.LISTEN_NOW}>
+    <button id=${NAV_MENU.LISTEN_NOW}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -63,7 +63,7 @@ const template = html`
       </svg>
       <span>지금 듣기</span>
     </button>
-    <button class=${NAV_MENU.BROWSING}>
+    <button id=${NAV_MENU.BROWSING}>
       <svg
         style="transform: scale(1.2);"
         height="24"
@@ -80,7 +80,7 @@ const template = html`
       </svg>
       <span>둘러보기</span>
     </button>
-    <button class=${NAV_MENU.RADIO}>
+    <button id=${NAV_MENU.RADIO}>
       <svg
         height="24"
         style="transform: scale(1.2);"
@@ -100,7 +100,7 @@ const template = html`
       </svg>
       <span>라디오</span>
     </button>
-    <button class=${NAV_MENU.MY_MUSIC}>
+    <button id=${NAV_MENU.MY_MUSIC}>
       <svg
         height="24"
         xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +129,7 @@ const template = html`
       </svg>
       <span>보관함</span>
     </button>
-    <button class=${NAV_MENU.SEARCH}>
+    <button id=${NAV_MENU.SEARCH}>
       <svg
         height="24"
         style="transform: scale(1.1);"
@@ -155,13 +155,11 @@ class NavigationBar extends DefaultComponent {
   constructor() {
     super(template);
 
-    this.$listenNowBtn = this.shadowRoot.querySelector(
-      `.${NAV_MENU.LISTEN_NOW}`
-    );
-    this.$browsingBtn = this.shadowRoot.querySelector(`.${NAV_MENU.BROWSING}`);
-    this.$RadioBtn = this.shadowRoot.querySelector(`.${NAV_MENU.RADIO}`);
-    this.$myMusicBtn = this.shadowRoot.querySelector(`.${NAV_MENU.MY_MUSIC}`);
-    this.$searchBtn = this.shadowRoot.querySelector(`.${NAV_MENU.SEARCH}`);
+    this.$listenNowBtn = this.shadowRoot.getElementById(NAV_MENU.LISTEN_NOW);
+    this.$browsingBtn = this.shadowRoot.getElementById(NAV_MENU.BROWSING);
+    this.$RadioBtn = this.shadowRoot.getElementById(NAV_MENU.RADIO);
+    this.$myMusicBtn = this.shadowRoot.getElementById(NAV_MENU.MY_MUSIC);
+    this.$searchBtn = this.shadowRoot.getElementById(NAV_MENU.SEARCH);
 
     this.$btns = [
       this.$listenNowBtn,
@@ -171,12 +169,35 @@ class NavigationBar extends DefaultComponent {
       this.$searchBtn,
     ];
 
-    console.log(this.$btns);
+    this.initEvent();
   }
 
   static get observedAttributes() {
     return ["selected-menu"];
   }
+
+  initEvent = () => {
+    this.shadowRoot.addEventListener("click", this.onClickNav);
+  };
+
+  onClickNav = (e) => {
+    let $current = e.target;
+
+    while ($current.tagName != null) {
+      if ($current.tagName === "BUTTON") {
+        const evt = new CustomEvent("changeNav", {
+          detail: {
+            id: $current.id,
+          },
+        });
+
+        this.dispatchEvent(evt);
+        return;
+      }
+
+      $current = $current.parentNode;
+    }
+  };
 
   attributeChangedCallback(attrName, _, newVal) {
     if (attrName === "selected-menu") {
@@ -185,12 +206,11 @@ class NavigationBar extends DefaultComponent {
   }
 
   onChangeSelectedMenu = (attrName) => {
-    console.log(attrName);
     this.$btns.forEach(($btn) => {
       $btn.classList.remove("selected");
     });
 
-    this.shadowRoot.querySelector(`.${attrName}`).classList.add("selected");
+    this.shadowRoot.getElementById(attrName).classList.add("selected");
   };
 }
 

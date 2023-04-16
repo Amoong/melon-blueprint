@@ -26,12 +26,15 @@ const template = html`
       width: 35px;
       height: 35px;
       border-radius: 50%;
+      padding: 0;
     }
   </style>
-  <div className="common-header">
+  <div class="common-header">
     <h1></h1>
     <button>
       <svg
+        width="100%"
+        height="100%"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"

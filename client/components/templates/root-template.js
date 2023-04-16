@@ -4,6 +4,8 @@ import { NAV_MENU } from "/client/components/organisms/navigation-bar.js";
 
 import "./music-player/index.js";
 import "./my-music.js";
+import "./listen-now.js";
+import "./page-renderer.js";
 
 const template = html`
   <style>
@@ -54,7 +56,10 @@ const template = html`
   <div class="root">
     <div class="screen-wrapper">
       <div class="status-bar">Lorem ipsum dolor sit, amet consectetur a</div>
-      <my-music></my-music>
+      <page-renderer>
+        <my-music></my-music>
+        <listen-now slot="page"></listen-now>
+      </page-renderer>
       <div class="navigation-bar-wrapper">
         <navigation-bar selected-menu=${NAV_MENU.LISTEN_NOW}></navigation-bar>
       </div>
@@ -70,6 +75,7 @@ class RootTemplate extends DefaultComponent {
     super(template);
 
     this.$screenWrapper = this.shadowRoot.querySelector(".screen-wrapper");
+    this.$nav = this.shadowRoot.querySelector("navigation-bar");
     this.$musicPlayerWrapper = this.shadowRoot.querySelector(
       ".music-player-wrapper"
     );
@@ -81,6 +87,7 @@ class RootTemplate extends DefaultComponent {
   }
 
   initEvent = () => {
+    this.$nav.addEventListener("changeNav", this.handleChangeNav);
     this.$musicPlayer.addEventListener("buttonMove", this.handleButtonMove);
     this.$musicPlayer.addEventListener(
       "buttonMoveEnd",
@@ -88,6 +95,10 @@ class RootTemplate extends DefaultComponent {
     );
 
     this.addEventListener("musicSelected", this.handleMusicSelected);
+  };
+
+  handleChangeNav = (e) => {
+    this.$nav.setAttribute("selected-menu", e.detail.id);
   };
 
   handleMusicSelected = () => {
