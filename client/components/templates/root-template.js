@@ -6,6 +6,7 @@ import "./music-player/index.js";
 import "./my-music.js";
 import "./listen-now.js";
 import "./page-renderer.js";
+import "./login-screen.js";
 
 const template = html`
   <style>
@@ -53,6 +54,16 @@ const template = html`
       height: 18px;
       background-color: transparent;
     }
+
+    .login-screen-wrapper {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* transform: translateY(100%); */
+      z-index: 11;
+    }
   </style>
   <div class="root">
     <div class="screen-wrapper">
@@ -66,6 +77,9 @@ const template = html`
       </div>
       <div class="music-player-wrapper">
         <music-player></music-player>
+      </div>
+      <div class="login-screen-wrapper">
+        <login-screen></login-screen>
       </div>
     </div>
   </div>

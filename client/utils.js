@@ -60,6 +60,10 @@ export const html = (...args) => {
         font-family: "AppleSDGothicNeo";
       }
 
+      input {
+        font-family: "AppleSDGothicNeo";
+      }
+
       #root,
       #__next {
         isolation: isolate;

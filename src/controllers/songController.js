@@ -15,7 +15,7 @@ export const home = async (req, res) => {
 
 export const insert = async (req, res) => {
   await Song.create(MUSICS);
-  return res.sendFile(__dirname + "/client/index.html");
+  return res.status(200).end();
 };
 
 export const getAll = async (req, res) => {
