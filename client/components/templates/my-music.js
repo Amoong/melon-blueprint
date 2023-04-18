@@ -14,6 +14,12 @@ const template = html`
     .my-music {
       width: 100%;
       height: 100%;
+      overflow-y: scroll;
+      scrollbar-width: none;
+    }
+
+    .my-music::-webkit-scrollbar {
+      display: none;
     }
 
     .prev-menu {
@@ -101,7 +107,7 @@ const template = html`
       </button>
     </div>
     <div class="body">
-      <common-header page-title="노래"></common-header>
+      <common-header page-title="노래" margin-bottom="12px"></common-header>
       <search-bar margin-bottom="27px"></search-bar>
       <div class="button-wrapper">
         <play-button btn-text="재생">

@@ -34,6 +34,7 @@ const template = html`
       top: 0;
       left: 0;
       transform: translateY(100%);
+      z-index: 10;
     }
 
     .screen-wrapper {

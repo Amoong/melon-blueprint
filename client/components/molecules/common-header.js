@@ -3,6 +3,7 @@ import { html, DefaultComponent } from "/client/utils.js";
 const template = html`
   <style>
     :host {
+      display: block;
       width: 100%;
     }
 
@@ -15,7 +16,6 @@ const template = html`
     }
 
     h1 {
-      margin-bottom: 12px;
       font-size: 35px;
       font-weight: 600;
       color: rgb(1, 1, 1);

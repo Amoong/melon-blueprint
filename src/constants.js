@@ -10,4 +10,8 @@ export const GENRE = {
   HOLIDAY: "Holiday",
   RETRO: "Retro",
   WORSHIP: "Worship",
+  FUNK: "Funk",
+  POP: "Pop",
+  CLASSICAL: "Classical",
+  CORPORATE: "Corporate",
 };
